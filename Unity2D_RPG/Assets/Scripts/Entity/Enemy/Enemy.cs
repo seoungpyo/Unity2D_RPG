@@ -5,6 +5,16 @@ using UnityEngine;
 public class Enemy : Entity
 {
     [SerializeField] protected LayerMask whatIsPlayer;
+
+    #region Header Stun
+    [Space(10)]
+    [Header("Stunned info")]
+    #endregion 
+    public float stunDuration;
+    public Vector2 stunDiretion;
+    protected bool canBeStunned;
+    [SerializeField] protected GameObject counterImage;
+
     #region Header Move Info
     [Space(10)]
     [Header("Move info")]
@@ -35,6 +45,28 @@ public class Enemy : Entity
         base.Update();
 
         stateMachine.currentState.Update();
+    }
+
+    public virtual void OpenCounterAttackWindow()
+    {
+        canBeStunned = true;
+        counterImage.SetActive(true);
+    }
+
+    public virtual void CloseCounterAttackWindow()
+    {
+        canBeStunned = false;
+        counterImage.SetActive(false);
+    }
+
+    public virtual bool CanBeStunned()
+    {
+        if (canBeStunned)
+        {
+            CloseCounterAttackWindow();
+            return true;
+        }
+        return false;
     }
 
     public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 50, whatIsPlayer);
