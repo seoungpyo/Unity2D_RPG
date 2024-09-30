@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SkeletonBattleState : EnemyState
@@ -18,7 +17,7 @@ public class SkeletonBattleState : EnemyState
     {
         base.Enter();
 
-        player = GameObject.Find("Player").transform;
+        this. player = PlayerManager.instance.player.transform;
     }
 
     public override void Exit()
